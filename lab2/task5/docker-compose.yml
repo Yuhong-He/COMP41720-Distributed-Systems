@@ -1,0 +1,35 @@
+version: '1'
+services:
+  broker:
+    build: broker
+
+  auldfellas:
+    build: auldfellas
+    depends_on:
+      - broker
+    environment:
+      - ADDRESS=broker
+
+  dodgygeezers:
+    build: dodgygeezers
+    depends_on:
+      - broker
+    environment:
+      - ADDRESS=broker
+
+  girlsallowed:
+    build: girlsallowed
+    depends_on:
+      - broker
+    environment:
+      - ADDRESS=broker
+
+  client:
+    build: client
+    depends_on:
+      - broker
+      - auldfellas
+      - dodgygeezers
+      - girlsallowed
+    environment:
+      - ADDRESS=broker
