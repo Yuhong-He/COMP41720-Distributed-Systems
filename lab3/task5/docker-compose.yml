@@ -1,0 +1,19 @@
+version: '1'
+services:
+  broker:
+    build: broker
+    ports:
+      - "9000:9000"
+    links:
+      - auldfellas
+      - dodgygeezers
+      - girlsallowed
+
+  auldfellas:
+    build: auldfellas
+
+  dodgygeezers:
+    build: dodgygeezers
+
+  girlsallowed:
+    build: girlsallowed

@@ -1,0 +1,27 @@
+version: '1'
+services:
+  auldfellas:
+    build: auldfellas
+    environment:
+      - HOST=auldfellas
+
+  dodgygeezers:
+    build: dodgygeezers
+    environment:
+      - HOST=dodgygeezers
+
+  girlsallowed:
+    build: girlsallowed
+    environment:
+      - HOST=girlsallowed
+
+  broker:
+    build: broker
+    environment:
+      - URLS=http://auldfellas/quotations,http://dodgygeezers/quotations,http://girlsallowed/quotations
+    ports:
+      - "9000:9000"
+    depends_on:
+      - auldfellas
+      - dodgygeezers
+      - girlsallowed
