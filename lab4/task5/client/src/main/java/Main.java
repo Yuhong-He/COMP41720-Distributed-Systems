@@ -12,6 +12,7 @@ import javax.jms.*;
 public class Main {
 
 	static Map<Long, OfferMessage> cache = new HashMap<>();
+	static int count = 0;
 	
 	/**
 	 * This is the starting point for the application. Here, we must
@@ -29,7 +30,7 @@ public class Main {
 			ConnectionFactory factory = new ActiveMQConnectionFactory("failover://tcp://localhost:61616");
 			Connection connection = factory.createConnection();
 			connection.setClientID("client");
-			Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 			// connect the client to myBroker
 			Queue queueClientRequest = session.createQueue("REQUEST");
@@ -57,10 +58,14 @@ public class Main {
 						for (Quotation quote : offerMessage.getQuotations()) {
 							displayQuotation(quote);
 						}
+						count++;
 						System.out.println("\n");
-						message.acknowledge();
 					} catch (JMSException e) {
 						System.out.println("JMSException in Broker Main to Service: " + e);
+					}
+					if(count == clients.length) {
+						System.out.println("All quotations printed.");
+						System.exit(0);
 					}
 				}
 			}).start();

@@ -17,7 +17,7 @@ public class Main {
             ConnectionFactory factory = new ActiveMQConnectionFactory("failover://tcp://localhost:61616");
             Connection connection = factory.createConnection();
             connection.setClientID("myBroker");
-            Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // connect the broker to the client
             Queue queueClientRequest = session.createQueue("REQUEST");
@@ -50,8 +50,6 @@ public class Main {
                         OfferMessage completedApplication = cache.get(clientMessage.getToken());
                         Message quotationSet = session.createObjectMessage(completedApplication);
                         producerToClient.send(quotationSet);
-
-                        message.acknowledge();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (JMSException e) {
@@ -70,7 +68,6 @@ public class Main {
                             OfferMessage offerMessage = cache.get(quotationMessage.getToken());
                             offerMessage.getQuotations().add(quotationMessage.getQuotation());
                         }
-                        message.acknowledge();
                     } catch (JMSException e) {
                         System.out.println("JMSException in Broker Main to Service: " + e);
                     }
