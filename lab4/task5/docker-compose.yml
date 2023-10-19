@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  activemq:
+    container_name: task5_activemq
+    image: rmohr/activemq:latest
+    ports:
+      - "8161:8161"
+      - "61616:61616"
+
+  auldfellas:
+    build: auldfellas
+    depends_on:
+      - activemq
+
+  dodgygeezers:
+    build: dodgygeezers
+    depends_on:
+      - activemq
+
+  girlsallowed:
+    build: girlsallowed
+    depends_on:
+      - activemq
+
+  broker:
+    build: broker
+    depends_on:
+      - activemq
+      - auldfellas
+      - dodgygeezers
+      - girlsallowed

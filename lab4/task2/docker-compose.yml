@@ -1,0 +1,9 @@
+version: '3.6'
+
+services:
+  activemq:
+    container_name: activemq
+    image: rmohr/activemq:latest
+    ports:
+      - "8161:8161"
+      - "61616:61616"
